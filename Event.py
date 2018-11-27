@@ -10,7 +10,9 @@ def date_to_string(start, end):
 	year_start, month_start, day_start = day_start_date.split('-')
 	year_end, month_end, day_end = day_end_date.split('-')
 	days_between = (
-			datetime.date(int(year_end), int(month_end), int(day_end)) - datetime.date(int(year_start), int(month_start), int(day_start))).days
+			datetime.date(int(year_end), int(month_end), int(day_end)) - datetime.date(int(year_start),
+			                                                                           int(month_start),
+			                                                                           int(day_start))).days
 	day_name = DAYS[datetime.datetime(int(year_start), int(month_start), int(day_start)).weekday()]
 
 	if days_between == 0:
@@ -30,4 +32,4 @@ class Event:
 			self.description = '- ' + description
 
 	def __repr__(self):
-		return date_to_string(self.start,self.end) + '\n' + self.name + self.description
+		return date_to_string(self.start, self.end) + '\n' + self.name + self.description + '\n'

@@ -10,15 +10,7 @@ START_DATE = "11.11.18"
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 
 
-def post_template():
-    first_line = "*Tech events this week* - " + START_DATE + " - " \
-                 + END_DATE + ":"
-    end_line = "See more details of events here - madeinjlm.org/events/" + \
-               "\n" + "If you have an event that you would like to add to " \
-                      "our calendar, email rachel@madeinjlm.org (make sure " \
-                      "you have a link too, e.g. Facebook/Meetup)"
 
-    post = ""
 
 def main():
     """Shows basic usage of the Google Calendar API.

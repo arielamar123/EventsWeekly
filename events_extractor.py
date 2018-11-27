@@ -14,6 +14,28 @@ def next_weekday(d, weekday):
 	return d + datetime.timedelta(days_ahead)
 
 
+def post_template(week_events, start, end):
+	first_line = "*Tech events this week* - " + start + " - " \
+	             + end + ":"
+
+	post_string = "\n\n"
+
+	for event in week_events:
+		post_string += event.__repr__()
+
+	end_line = "\nSee more details of events here - madeinjlm.org/events/" + \
+	           "\n" + "If you have an event that you would like to add to " \
+	                  "our calendar, email rachel@madeinjlm.org (make sure " \
+	                  "you have a link too, e.g. Facebook/Meetup)"
+	return first_line + post_string + end_line
+
+
+def get_date_format(date):
+	start_date_arr = date.split("T")[0].split("-")
+	start_date_arr.reverse()
+	return ".".join(start_date_arr)
+
+
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 
@@ -35,7 +57,6 @@ def main():
 	# Call the Calendar API
 	now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
 	next_week = next_weekday(datetime.datetime.utcnow(), datetime.datetime.utcnow().weekday()).isoformat() + 'Z'
-	print('Getting this week events')
 	events_result = service.events().list(calendarId='primary', timeMin=now, timeMax=next_week,
 	                                      maxResults=10, singleEvents=True,
 	                                      orderBy='startTime').execute()
@@ -43,6 +64,7 @@ def main():
 
 	if not events:
 		print('No upcoming events found.')
+	week_events = []
 	for event in events:
 		start = event['start']['dateTime']
 		end = event['end']['dateTime']
@@ -51,7 +73,8 @@ def main():
 			description = event['description'].split('>')[1]
 		except:
 			description = ""
-		print(Event.Event(start, end, name, description))
+		week_events.append(Event.Event(start, end, name, description))
+	print(post_template(week_events, get_date_format(now), get_date_format(next_week)))
 
 
 if __name__ == '__main__':
