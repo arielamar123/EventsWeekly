@@ -4,6 +4,7 @@ from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 import Event
+import sys
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
@@ -25,6 +26,7 @@ def main():
 
 	# Call the Calendar API
 	now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+	print("now", now)
 	print('Getting this week events')
 	events_result = service.events().list(calendarId='primary', timeMin=now,
 	                                      maxResults=10, singleEvents=True,
@@ -37,7 +39,10 @@ def main():
 		start = event['start']['dateTime']
 		end = event['end']['dateTime']
 		name = event['summary']
-		description = event['description'].split('>')[1]
+		try:
+			description = event['description'].split('>')[1]
+		except:
+			description = ""
 		print(Event.Event(start, end, name, description))
 
 
