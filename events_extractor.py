@@ -6,6 +6,14 @@ from oauth2client import file, client, tools
 import Event
 import sys
 
+
+def next_weekday(d, weekday):
+	days_ahead = weekday - d.weekday()
+	if days_ahead <= 0:  # Target day already happened this week
+		days_ahead += 7
+	return d + datetime.timedelta(days_ahead)
+
+
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 
@@ -26,9 +34,9 @@ def main():
 
 	# Call the Calendar API
 	now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-	print("now", now)
+	next_week = next_weekday(datetime.datetime.utcnow(), datetime.datetime.utcnow().weekday()).isoformat() + 'Z'
 	print('Getting this week events')
-	events_result = service.events().list(calendarId='primary', timeMin=now,
+	events_result = service.events().list(calendarId='primary', timeMin=now, timeMax=next_week,
 	                                      maxResults=10, singleEvents=True,
 	                                      orderBy='startTime').execute()
 	events = events_result.get('items', [])
