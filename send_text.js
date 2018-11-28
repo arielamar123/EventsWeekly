@@ -1,8 +1,10 @@
-function send_text(form)
-{
+const LOCAL_HOST = 'http://127.0.0.1:8001';
+let socket = io.connect(LOCAL_HOST);
 
-    console.log("header: "+form.header.value);
-    console.log("footer: "+form.footer.value);
-    xmlhttp.open("GET","Form-data",true);
+
+function send_text(form) {
+    socket.emit('submit', form.header.value, form.footer.value);
 }
+
+
 

@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Events Weekly</title>
-    <script src="send_text.js"> </script>
+    <script type="text/javascript" src="socket.io.js"></script>
+    <script src="send_text.js"></script>
 </head>
-<body>
+<body background="background.png">
 <form align="center">
     Header:<br><textarea name="header" cols="40" rows="5"></textarea>
-  <br><br>
+    <br><br>
     Footer:<br><textarea name="footer" cols="40" rows="5"></textarea>
-  <br><br>
-  <input type="button" value="I want to make an events post !" name="submit" onclick="send_text(this.form)">
+    <br><br>
+    <input type="button" value="I want to make an events post !" name="submit" onclick="send_text(this.form)">
 </form>
 
 <a title="send to Facebook"
-  href="http://www.facebook.com/sharer.php?u=https://www.youtube.com/&ps=100&p[title]=YOUR_TITLE&p[summary]=YOUR_SUMMARY&p[url]=YOUR_URL&p[images][0]=YOUR_IMAGE_TO_SHARE_OBJECT"
-  target="_blank">
+   href="http://www.facebook.com/sharer.php?u=https://www.youtube.com/&ps=100&p[title]=YOUR_TITLE&p[summary]=YOUR_SUMMARY&p[url]=YOUR_URL&p[images][0]=YOUR_IMAGE_TO_SHARE_OBJECT"
+   target="_blank">
   <span>
-    <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+    <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/>
   </span>
 </a>
 <!--<a href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank">-->
-        <!--<img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />-->
-    <!--</a>-->
+<!--<img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />-->
+<!--</a>-->
 </body>
 </html>

@@ -5,6 +5,11 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 import Event
 
+END_LINE = "\nSee more details of events here - madeinjlm.org/events/" + \
+           "\n" + "If you have an event that you would like to add to " \
+                  "our calendar, email rachel@madeinjlm.org (make sure " \
+                  "you have a link too, e.g. Facebook/Meetup)"
+
 
 def next_weekday(d, weekday):
 	days_ahead = weekday - d.weekday()
@@ -13,19 +18,15 @@ def next_weekday(d, weekday):
 	return d + datetime.timedelta(days_ahead)
 
 
-def post_template(week_events, start, end):
-	first_line = "*Tech events this week* - " + start + " - " \
+def post_template(week_events, start, end, header, footer):
+	first_line = header + "\nevents this week* - " + start + " - " \
 	             + end + ":"
 
 	post_string = "\n\n"
 
 	for event in week_events:
 		post_string += event.__repr__()
-
-	end_line = "\nSee more details of events here - madeinjlm.org/events/" + \
-	           "\n" + "If you have an event that you would like to add to " \
-	                  "our calendar, email rachel@madeinjlm.org (make sure " \
-	                  "you have a link too, e.g. Facebook/Meetup)"
+	end_line = "\n" + footer
 	return first_line + post_string + end_line
 
 
@@ -39,7 +40,7 @@ def get_date_format(date):
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 
 
-def main():
+def get_post(header, footer):
 	"""Shows basic usage of the Google Calendar API.
 	Prints the start and name of the next 10 events on the user's calendar.
 	"""
@@ -73,8 +74,4 @@ def main():
 		except:
 			description = ""
 		week_events.append(Event.Event(start, end, name, description))
-	print(post_template(week_events, get_date_format(now), get_date_format(next_week)))
-
-
-if __name__ == '__main__':
-	main()
+	return post_template(week_events, get_date_format(now), get_date_format(next_week), header, footer)
