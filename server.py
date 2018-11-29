@@ -13,5 +13,6 @@ def handle_message(header, footer):
 	print(footer)
 	emit("return_post", get_post(header, footer))
 
+
 if __name__ == '__main__':
-	socketio.run(app, host='127.0.0.1', port=8001)
+	socketio.run(app, host='127.0.0.1', port=8080)

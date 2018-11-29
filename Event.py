@@ -32,4 +32,4 @@ class Event:
 			self.description = '- ' + description
 
 	def __repr__(self):
-		return date_to_string(self.start, self.end) + '\n' + self.name + self.description + '\n'
+		return date_to_string(self.start, self.end) + '\n' + self.name + self.description + '\n\n'
