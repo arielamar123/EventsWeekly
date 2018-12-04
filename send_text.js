@@ -23,6 +23,7 @@ socket.on("return_post", function (response) {
     let post = document.createElement("textarea");
     post.id = "post";
     let output_headline = document.createElement("span");
+    output_headline.class = "text";
     let facebook = document.createElement("img");
     let br = document.createElement("br");
     let br2 = document.createElement("br");
@@ -36,7 +37,7 @@ socket.on("return_post", function (response) {
         get_facebook(status);
     });
     facebook.alt = "Facebook";
-
+    output_headline.classList.add("text2");
     output_headline.innerText = "Your post is:";
     output_headline.style = "font-weight: bold;";
     post.name = "post";
@@ -54,8 +55,17 @@ socket.on("return_post", function (response) {
         document.execCommand("Copy");
     };
     key_click.innerHTML = "Copy text";
+    let table = document.createElement("table");
+    let row = document.createElement("tr");
+    let copy_place = document.createElement("td");
+    let facebook_place = document.createElement("td");
+    copy_place.appendChild(key_click);
+    facebook_place.appendChild(facebook);
+    row.appendChild(copy_place);
+    row.appendChild(facebook_place);
+    table.appendChild(row);
     if (i <= 1) {
-        $(".inputs").append(output_headline, br, br2, post, br3, key_click, br4,br5, facebook);
+        $(".inputs").append(output_headline, br, br2, post, br3, br4, table);
     }
     else {
         document.getElementsById("post").value = response;
