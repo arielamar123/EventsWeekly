@@ -1,4 +1,4 @@
-const LOCAL_HOST = 'http://127.0.0.1:8080';
+const LOCAL_HOST = 'http://127.0.0.1:8888';
 let socket = io.connect(LOCAL_HOST);
 
 let i = 0;
@@ -9,14 +9,34 @@ function send_text() {
 
 }
 
+function get_facebook(status) {
+    console.log("pressed facebook");
+    FB.ui({
+        method: 'share',
+        href: 'https://www.facebook.com/',
+        quote: status,
+    }, function (response) {
+    });
+}
+
 socket.on("return_post", function (response) {
     let post = document.createElement("textarea");
     post.id = "post";
     let output_headline = document.createElement("span");
+    let facebook = document.createElement("img");
     let br = document.createElement("br");
     let br2 = document.createElement("br");
     let br3 = document.createElement("br");
+    let br4 = document.createElement("br");
+    let br5 = document.createElement("br");
     let key_click = document.createElement("button");
+    let status = response;
+    facebook.src = "fsharesmall.png";
+    facebook.addEventListener('click', function () {
+        get_facebook(status);
+    });
+    facebook.alt = "Facebook";
+
     output_headline.innerText = "Your post is:";
     output_headline.style = "font-weight: bold;";
     post.name = "post";
@@ -35,7 +55,7 @@ socket.on("return_post", function (response) {
     };
     key_click.innerHTML = "Copy text";
     if (i <= 1) {
-        $(".inputs").append(output_headline, br, br2, post, br3, key_click);
+        $(".inputs").append(output_headline, br, br2, post, br3, key_click, br4,br5, facebook);
     }
     else {
         document.getElementsById("post").value = response;
