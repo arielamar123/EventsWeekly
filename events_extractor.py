@@ -19,6 +19,8 @@ def next_weekday(d, weekday):
 
 
 def post_template(week_events, start, end, header, footer):
+	print("start")
+	print(start)
 	first_line = header + "\nevents this week* - " + start + " - " \
 	             + end + ":"
 
@@ -40,7 +42,7 @@ def get_date_format(date):
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 
 
-def get_post(header, footer):
+def get_post(header, footer,start_date,end_date):
 	"""Shows basic usage of the Google Calendar API.
 	Prints the start and name of the next 10 events on the user's calendar.
 	"""
@@ -55,9 +57,20 @@ def get_post(header, footer):
 	service = build('calendar', 'v3', http=creds.authorize(Http()))
 
 	# Call the Calendar API
-	now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-	next_week = next_weekday(datetime.datetime.utcnow(), datetime.datetime.utcnow().weekday()).isoformat() + 'Z'
-	events_result = service.events().list(calendarId='primary', timeMin=now, timeMax=next_week,
+	print(start_date)
+	if(not start_date):
+		start = datetime.datetime.utcnow()  # 'Z' indicates UTC time
+	else:
+		s_year,s_month,s_day = start_date.split("-")
+		start = datetime.datetime(int(s_year),int(s_month),int(s_day))
+	if(not end_date):
+		end = next_weekday(start, start.weekday()).isoformat() + 'Z'
+	else:
+		e_year, e_month, e_day = end_date.split("-")
+		end = datetime.datetime(int(e_year), int(e_month), int(e_day)).isoformat() + 'Z'
+	print(start)
+	print(end)
+	events_result = service.events().list(calendarId='primary', timeMin=start.isoformat() + 'Z', timeMax=end,
 	                                      maxResults=10, singleEvents=True,
 	                                      orderBy='startTime').execute()
 	events = events_result.get('items', [])
@@ -74,4 +87,4 @@ def get_post(header, footer):
 		except:
 			description = ""
 		week_events.append(Event.Event(start, end, name, description))
-	return post_template(week_events, get_date_format(now), get_date_format(next_week), header, footer)
+	return post_template(week_events, get_date_format(start.isoformat() + 'Z'), get_date_format(end), header, footer)

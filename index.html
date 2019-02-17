@@ -2,22 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
     <title>Events Weekly</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="socket.io.js"></script>
     <script src="facebook_sdk.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="send_text.js"></script>
 </head>
 <body background="background.png">
 
+
 <span id="form" align="center">
+    <iframe src="https://www.w3schools.com"></iframe>
+    <div id="my-signin2" align="center" onclick="onSuccess()"></div>
+
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
     <div class="inputs" align="center">
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <span class="text">Header:</span><br><textarea id="header" cols="40" rows="5"></textarea>
         <br><br>
         <span class="text">Footer:</span><br><textarea id="footer" cols="40" rows="5"></textarea>
         <br><br>
-        <input class="post" type="button" value="Create post" name="submit" onclick="send_text()">
+        <form action="/action_page.php">Start Date: <input id = "Start Date" type="date" name="date1">
+        <input type="checkbox" id="myCheck" onclick="obj.disable('myCheck','Start Date')"> start from today
+
+        <br><br>
+        <form action="/action_page.php">End Date: <input id = "End Date"  type="date" name="date2">
+        <input type="checkbox" id="myCheck2" onclick="obj.disable('myCheck2','End Date')"> end in one week from start day
+        <br><br>
+        <input class="post" type="button" value="Create post" name="submit" onclick="obj.send_text()">
         <br><br>
     </div>
 </span>

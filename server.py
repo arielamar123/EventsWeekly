@@ -8,11 +8,14 @@ socketio = SocketIO(app)
 
 
 @socketio.on('submit')
-def handle_message(header, footer):
+def handle_message(header, footer, start_date,end_date):
 	print(header)
 	print(footer)
-	emit("return_post", get_post(header, footer))
+	print(start_date)
+	print(end_date)
+	emit("return_post", get_post(header, footer,start_date,end_date))
 
 
 if __name__ == '__main__':
+	print("start")
 	socketio.run(app, host='127.0.0.1', port=8888)
